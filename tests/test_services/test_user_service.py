@@ -11,6 +11,7 @@ pytestmark = pytest.mark.asyncio
 async def test_create_user_with_valid_data(db_session, email_service):
     user_data = {
         "email": "valid_user@example.com",
+        "nickname": "valid_nickname",
         "password": "ValidPassword123!",
     }
     user = await UserService.create(db_session, user_data, email_service)
@@ -93,6 +94,7 @@ async def test_list_users_with_pagination(db_session, users_with_same_role_50_us
 async def test_register_user_with_valid_data(db_session, email_service):
     user_data = {
         "email": "register_valid_user@example.com",
+        "nickname": "valid_nickname",
         "password": "RegisterValid123!",
     }
     user = await UserService.register_user(db_session, user_data, email_service)
@@ -103,6 +105,7 @@ async def test_register_user_with_valid_data(db_session, email_service):
 async def test_register_user_with_invalid_data(db_session, email_service):
     user_data = {
         "email": "registerinvalidemail",  # Invalid email
+        "nickname": "a",
         "password": "short",  # Invalid password
     }
     user = await UserService.register_user(db_session, user_data, email_service)
