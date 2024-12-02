@@ -193,7 +193,6 @@ async def list_users(
         links=pagination_links  # Ensure you have appropriate logic to create these links
     )
 
-
 @router.post("/register/", response_model=UserResponse, tags=["Login and Registration"])
 async def register(user_data: UserCreate, session: AsyncSession = Depends(get_db), email_service: EmailService = Depends(get_email_service)):
     user = await UserService.register_user(session, user_data.model_dump(), email_service)
@@ -208,6 +207,9 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Async
 
     user = await UserService.login_user(session, form_data.username, form_data.password)
     if user:
+        if not user.email_verified:
+            raise HTTPException(status_code=400, detail="Complete email verification to login.")
+        
         access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
 
         access_token = create_access_token(
