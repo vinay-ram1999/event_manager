@@ -18,7 +18,15 @@ from app.models.user_model import UserRole
 import logging
 
 settings = get_settings()
+
 logger = logging.getLogger(__name__)
+
+ADMIN = User(nickname=settings.admin_user,
+            email=settings.admin_email,
+            hashed_password=hash_password(settings.admin_password),
+            role=UserRole.ADMIN,
+            is_locked=False,
+            email_verified=True)
 
 class UserService:
     @classmethod
@@ -193,3 +201,11 @@ class UserService:
             await session.commit()
             return True
         return False
+    
+    @classmethod
+    async def create_default_admin(cls, session: AsyncSession):
+        admin = await cls.get_by_email(session, ADMIN.email)
+        if not admin:
+            session.add(ADMIN)
+            await session.commit()
+            logger.info("Default admin created!")
