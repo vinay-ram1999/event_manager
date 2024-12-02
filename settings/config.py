@@ -39,8 +39,8 @@ class Settings(BaseSettings):
     # Email settings for Mailtrap
     smtp_server: str = Field(default='smtp.mailtrap.io', description="SMTP server for sending emails")
     smtp_port: int = Field(default=2525, description="SMTP port for sending emails")
-    smtp_username: str = Field(default='7d5f7655327ce7', description="Username for SMTP server")
-    smtp_password: str = Field(default='0de2437b0030b9', description="Password for SMTP server")
+    smtp_username: str = Field(default='dadf940cba921a', description="Username for SMTP server")
+    smtp_password: str = Field(default='c40c8c21fd43b1', description="Password for SMTP server")
 
 
     class Config:
